@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.visionki.wechat.mapper.WechatUserMapper" >
+  <resultMap id="BaseResultMap" type="com.visionki.wechat.model.WechatUser" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="subscribe" property="subscribe" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+    <result column="subscribe_time" property="subscribeTime" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="debug" property="debug" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, subscribe, open_id, nick_name, sex, city, country, province, language, head_url, 
+    subscribe_time, union_id, remark, group_id, tag_name, created_time, update_time, 
+    debug
+  </sql>
+
+  <update id="updateAllUserTag">
+    UPDATE wechat_user SET tag_name = #{newTag} WHERE tag_name = #{oldTag}
+  </update>
+
+  <select id="selectByNickName" resultMap="BaseResultMap">
+    SELECT * FROM wechat_user WHERE nick_name LIKE "%${nickName}%"
+  </select>
+
+  <select id="selectByAttr" resultMap="BaseResultMap">
+    SELECT * FROM wechat_user WHERE nick_name LIKE "%${nickName}%"
+    <if test="tagName != null and tagName != ''">AND tag_name = #{tagName}</if>
+  </select>
+
+  <select id="getSubscribeCountByDate" resultType="int">
+    SELECT COUNT(1) FROM wechat_user WHERE subscribe_time LIKE "%${dateStr}%"
+  </select>
+
+  <select id="getUnsubscribeCountByDate" resultType="int">
+    SELECT COUNT(1) FROM wechat_user WHERE subscribe = 0 AND update_time LIKE "%${dateStr}%"
+  </select>
+
+  <select id="getSubscribeCountByDateAndTagName" resultType="int">
+    SELECT COUNT(1) FROM wechat_user WHERE subscribe_time LIKE "%${dateStr}%" AND tag_name = #{tagName}
+  </select>
+</mapper>

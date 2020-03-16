@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.visionki.wechat.mapper.WechatSendRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.visionki.wechat.model.WechatSendRecord" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="msg_type" property="msgType" jdbcType="INTEGER" />
+    <result column="media_id" property="mediaId" jdbcType="CHAR" />
+    <result column="media_name" property="mediaName" jdbcType="VARCHAR" />
+    <result column="success_count" property="successCount" jdbcType="INTEGER" />
+    <result column="fail_count" property="failCount" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="send_time" property="sendTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, tag, msg_type, media_id, media_name, success_count, fail_count, total, send_time
+  </sql>
+</mapper>

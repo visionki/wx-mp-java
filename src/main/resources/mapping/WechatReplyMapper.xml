@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.visionki.wechat.mapper.WechatReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.visionki.wechat.model.WechatReply" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="matching_type" property="matchingType" jdbcType="INTEGER" />
+    <result column="msg_type" property="msgType" jdbcType="INTEGER" />
+    <result column="message_id" property="messageId" jdbcType="CHAR" />
+    <result column="message_name" property="messageName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, key_word, matching_type, msg_type, message_id, message_name, create_time, update_time
+  </sql>
+</mapper>
