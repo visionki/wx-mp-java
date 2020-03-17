@@ -35,4 +35,11 @@ public interface UserService {
      * @return
      */
     List<WechatUser> selectByAttr(UserSelectParam userSelectParam);
+
+    /**
+     * 同步用户
+     * @return
+     */
+    int synchronization();
+
 }

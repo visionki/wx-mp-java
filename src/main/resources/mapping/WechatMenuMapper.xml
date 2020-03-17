@@ -6,15 +6,11 @@
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="CHAR" />
+    <result column="parent_id" property="parentId" jdbcType="CHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="key" property="key" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="media_id2" property="mediaId2" jdbcType="VARCHAR" />
-    <result column="app_id" property="appId" jdbcType="VARCHAR" />
-    <result column="page_path" property="pagePath" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="CHAR" />
-    <result column="sort_number" property="sortNumber" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
@@ -22,7 +18,6 @@
     <!--
       WARNING - @mbg.generated
     -->
-    id, name, type, key, url, media_id2, app_id, page_path, parent_id, sort_number, create_time, 
-    update_time
+    id, parent_id, name, type, content, sort, create_time, update_time
   </sql>
 </mapper>

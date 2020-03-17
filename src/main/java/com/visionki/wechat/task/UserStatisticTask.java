@@ -47,9 +47,10 @@ public class UserStatisticTask {
     private WechatTagMapper wechatTagMapper;
 
     /**
-     * 每天凌晨12点05分运行定时任务，记录
+     * 每天凌晨12点00分01秒运行定时任务，记录
      */
-    @Scheduled(cron = "0 5 0 * * ?")
+    @Scheduled(cron = "1 0 0 * * ?")
+//    @Scheduled(cron = "*/5 * * * * ?")
     private void configureTasks() {
         // 新增人数：subscribe_time = 昨天
         // 取关人数：subscribe = 0 并且 update_time = 昨天
@@ -73,6 +74,9 @@ public class UserStatisticTask {
         wechatUserStatistic.setSubscribeNumber(subscribeNumber);
         wechatUserStatistic.setUnsubscribeNumber(unsubscribeNumber);
         wechatUserStatistic.setIncreaseNumber(increaseNumber);
+        WechatUser wechatUser = new WechatUser();
+        wechatUser.setSubscribe(1);
+        wechatUserStatistic.setTotalNumber(wechatUserMapper.selectCount(wechatUser));
         wechatUserStatisticMapper.insert(wechatUserStatistic);
         // 接下来查询每天每个标签的关注人数
         List<WechatTag> wechatTags = wechatTagMapper.selectAll();
@@ -84,6 +88,15 @@ public class UserStatisticTask {
             wechatUserStatisticDetail.setRecordTime(dateStr);
             wechatUserStatisticDetailMapper.insert(wechatUserStatisticDetail);
         }
+        // 自然关注人数
+        WechatUserStatisticDetail wechatUserStatisticDetail = new WechatUserStatisticDetail();
+        wechatUserStatisticDetail.setId(UUIDUtils.uuid());
+        wechatUserStatisticDetail.setTagName("自然关注");
+        wechatUserStatisticDetail.setNumber(wechatUserMapper.getSubscribeCountByDateAndTagName(dateStr,""));
+        wechatUserStatisticDetail.setRecordTime(dateStr);
+        wechatUserStatisticDetailMapper.insert(wechatUserStatisticDetail);
+        // TODO 发送短信
+
     }
 
 }

@@ -9,13 +9,20 @@ import com.visionki.wechat.model.WechatUser;
 import com.visionki.wechat.param.UpdateUserInfoParam;
 import com.visionki.wechat.param.UserSelectParam;
 import com.visionki.wechat.service.UserService;
+import com.visionki.wechat.util.DateUtils;
+import com.visionki.wechat.util.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.WxMpUserQuery;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: vision
@@ -110,5 +117,77 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<WechatUser> selectByAttr(UserSelectParam userSelectParam) {
         return wechatUserMapper.selectByAttr(userSelectParam);
+    }
+
+    @Override
+    public int synchronization() {
+        int count = 0;
+        List<WechatTag> wechatTags = wechatTagMapper.selectAll();
+        Map<Long,String> wechatTagMap = new HashMap<>(wechatTags.size());
+        for (WechatTag wechatTag : wechatTags){
+            wechatTagMap.put(wechatTag.getTagId(), wechatTag.getTagName());
+        }
+        String nextOpenid = "";
+        while (true){
+            WxMpUserList wxUserList;
+            try {
+                wxUserList = wxMpService.getUserService().userList(nextOpenid);
+                if (wxUserList.getNextOpenid().length() == 0){
+                    break;
+                }
+                List<WxMpUser> wxMpUsers = wxMpService.getUserService().userInfoList(wxUserList.getOpenids());
+                for (WxMpUser wxMpUser : wxMpUsers){
+                    try {
+                        // 挨个入库
+                        WechatUser wechatUser = new WechatUser();
+                        wechatUser.setOpenId(wxMpUser.getOpenId());
+                        wechatUser = wechatUserMapper.selectOne(wechatUser);
+                        if (wechatUser == null){
+                            wechatUser = new WechatUser();
+                            wechatUser.setId(UUIDUtils.uuid());
+                            wechatUser.setCreatedTime(DateUtils.getCurrentDateTime(DateUtils.DATE_TIME_FORMAT));
+                            wechatUser.setOpenId(wxMpUser.getOpenId());
+                            wechatUser.setCity(wxMpUser.getCity());
+                            wechatUser.setDebug(0);
+                            wechatUser.setProvince(wxMpUser.getProvince());
+                            wechatUser.setCountry(wxMpUser.getCountry());
+                            wechatUser.setHeadUrl(wxMpUser.getHeadImgUrl());
+                            wechatUser.setLanguage(wxMpUser.getLanguage());
+                            wechatUser.setNickName(wxMpUser.getNickname());
+                            wechatUser.setGroupId(wxMpUser.getGroupId());
+                            wechatUser.setUnionId("");
+                            wechatUser.setSubscribeTime(DateUtils.getCurrentDateTime(DateUtils.DATE_TIME_FORMAT));
+                            wechatUser.setUpdateTime(DateUtils.getCurrentDateTime(DateUtils.DATE_TIME_FORMAT));
+                            wechatUser.setRemark(wxMpUser.getRemark());
+                            wechatUser.setSex(wxMpUser.getSex());
+                            wechatUser.setSubscribe(1);
+                            if (wxMpUser.getTagIds().length > 0){
+                                wechatUser.setTagName(wechatTagMap.get(wxMpUser.getTagIds()[0]));
+                            }else {
+                                wechatUser.setTagName("");
+                            }
+                            int insert = wechatUserMapper.insert(wechatUser);
+                            count+=insert;
+                        }else if (wechatUser.getSubscribe() == 0){
+                            wechatUser.setSubscribe(1);
+                            if (wxMpUser.getTagIds().length > 0){
+                                wechatUser.setTagName(wechatTagMap.get(wxMpUser.getTagIds()[0]));
+                            }else {
+                                wechatUser.setTagName("");
+                            }
+                            wechatUser.setRemark(wxMpUser.getRemark());
+                            wechatUserMapper.updateByPrimaryKey(wechatUser);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (WxErrorException e) {
+                e.printStackTrace();
+                throw new BaseException(REnum.ERROR);
+            }
+            nextOpenid = wxUserList.getNextOpenid();
+        }
+        return count;
     }
 }

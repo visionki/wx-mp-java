@@ -16,6 +16,12 @@ public enum REnum {
     MEDIA_NOT_CONTENT(10003,"该图文消息(外链型)没有内容,请添加内容后在发送"),
     MEDIA_NOT_EXISTS(10004,"该图文消息(官方文章)不存在,请前往图文消息(官方文章)管理同步后再尝试"),
     TAG_NOT_EXISTS(10005,"该标签不存在,请刷新页面后重试"),
+    TOO_MUCH_PARENT_MENU(10006,"一级菜单最多存在三个，已达上限"),
+    PARENT_MENU_NOT_EXISTS(10007,"父级菜单不存在，请刷新后再试"),
+    TOO_MUCH_CHILDREN_MENU(10006,"子菜单最多存在五个，已达上限"),
+    CHILDREN_MENU_IS_EXISTS(10007,"存在子菜单，请删除后再改变类型"),
+    MENU_CREATE_ERROR_NAME_TOO_LONG(10008,"父级菜单名字太长，最多支持5个字"),
+    MENU_CREATE_ERROR_COUNT(10008,"子菜单数量异常，请检查后再试"),
 
 
     /* 20000~30000段，用户相关错误码 */

@@ -30,6 +30,12 @@ public class WechatUserStatistic implements Serializable {
     private Integer increaseNumber;
 
     /**
+     * 总关注人数
+     */
+    @Column(name = "total_number")
+    private Integer totalNumber;
+
+    /**
      * 统计日期
      */
     @Column(name = "record_time")
@@ -110,6 +116,24 @@ public class WechatUserStatistic implements Serializable {
     }
 
     /**
+     * 获取总关注人数
+     *
+     * @return total_number - 总关注人数
+     */
+    public Integer getTotalNumber() {
+        return totalNumber;
+    }
+
+    /**
+     * 设置总关注人数
+     *
+     * @param totalNumber 总关注人数
+     */
+    public void setTotalNumber(Integer totalNumber) {
+        this.totalNumber = totalNumber;
+    }
+
+    /**
      * 获取统计日期
      *
      * @return record_time - 统计日期
@@ -137,6 +161,7 @@ public class WechatUserStatistic implements Serializable {
         sb.append(", subscribeNumber=").append(subscribeNumber);
         sb.append(", unsubscribeNumber=").append(unsubscribeNumber);
         sb.append(", increaseNumber=").append(increaseNumber);
+        sb.append(", totalNumber=").append(totalNumber);
         sb.append(", recordTime=").append(recordTime);
         sb.append("]");
         return sb.toString();

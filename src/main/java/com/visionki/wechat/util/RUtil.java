@@ -71,6 +71,17 @@ public class RUtil {
         r.setMsg(rEnum.getMessage());
         return r;
     }
+    /**
+     * 数据处理异常时的返回处理，传入字符串
+     * @param errorMsg 字符串
+     * @return
+     */
+    public static R error(String errorMsg) {
+        R r = new R();
+        r.setCode(500);
+        r.setMsg(errorMsg);
+        return r;
+    }
 
     /**
      * 数据处理成功时的返回处理（失败的另外一个编码，加上传输数据）

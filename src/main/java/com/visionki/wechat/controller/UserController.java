@@ -44,4 +44,10 @@ public class UserController {
             return RUtil.error(REnum.ERROR);
         }
     }
+
+    @GetMapping("/synchronization")
+    public R synchronization(){
+        int count = userService.synchronization();
+        return RUtil.success("同步成功，同步新增" + count +"人");
+    }
 }

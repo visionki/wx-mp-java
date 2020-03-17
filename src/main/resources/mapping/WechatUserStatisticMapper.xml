@@ -9,12 +9,13 @@
     <result column="subscribe_number" property="subscribeNumber" jdbcType="INTEGER" />
     <result column="unsubscribe_number" property="unsubscribeNumber" jdbcType="INTEGER" />
     <result column="increase_number" property="increaseNumber" jdbcType="INTEGER" />
+    <result column="total_number" property="totalNumber" jdbcType="INTEGER" />
     <result column="record_time" property="recordTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbg.generated
     -->
-    id, subscribe_number, unsubscribe_number, increase_number, record_time
+    id, subscribe_number, unsubscribe_number, increase_number, total_number, record_time
   </sql>
 </mapper>

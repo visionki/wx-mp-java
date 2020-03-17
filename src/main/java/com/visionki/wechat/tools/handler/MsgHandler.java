@@ -3,11 +3,9 @@ package com.visionki.wechat.tools.handler;
 import com.github.pagehelper.PageHelper;
 import com.visionki.wechat.mapper.WechatArticleContentMapper;
 import com.visionki.wechat.mapper.WechatMessageMapper;
-import com.visionki.wechat.mapper.WechatOfficialArticleMapper;
 import com.visionki.wechat.mapper.WechatReplyMapper;
 import com.visionki.wechat.model.WechatArticleContent;
 import com.visionki.wechat.model.WechatMessage;
-import com.visionki.wechat.model.WechatOfficialArticle;
 import com.visionki.wechat.model.WechatReply;
 import com.visionki.wechat.tools.builder.TextBuilder;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -17,7 +15,6 @@ import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
-import me.chanjar.weixin.mp.builder.kefu.MpNewsBuilder;
 import me.chanjar.weixin.mp.builder.outxml.NewsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,8 +35,6 @@ public class MsgHandler extends AbstractHandler {
     private WechatMessageMapper wechatMessageMapper;
     @Autowired
     private WechatArticleContentMapper wechatArticleContentMapper;
-    @Autowired
-    private WechatOfficialArticleMapper wechatOfficialArticleMapper;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
